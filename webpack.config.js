@@ -5,24 +5,18 @@ const json5 = require('json5')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = (env) => ({
+  mode: 'development',
+  plugins: [new HtmlWebpackPlugin({ title: 'Webpack App' })],
   entry: {
     index: { import: './src/index.js' }
   },
-  plugins: [new HtmlWebpackPlugin({ title: 'Webpack App' })],
   output: {
     path: path.resolve(__dirname, 'dist'),
     pathinfo: false,
-    filename: '[name].[contenthash].js',
-    library: { name: 'webpackNumbers', type: 'umd' },
+    // filename: '[name].[contenthash].js',
+    filename: '[name].js',
+    library: { name: 'webpack-demo', type: 'umd' },
     clean: true
-  },
-  externals: {
-    lodash: {
-      commonjs: 'lodash',
-      commonjs2: 'lodash',
-      amd: 'lodash',
-      root: '_'
-    }
   },
   optimization: {
     moduleIds: 'deterministic',
@@ -37,9 +31,6 @@ module.exports = (env) => ({
       }
     }
   },
-  mode: 'development',
-  devtool: 'inline-source-map',
-  devServer: { contentBase: './dist' },
   module: {
     rules: [
       { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
@@ -51,5 +42,15 @@ module.exports = (env) => ({
       { test: /\.(yaml|yml)$/i, type: 'json', parser: { parse: yaml.parse } },
       { test: /\.json5$/i, type: 'json', parser: { parse: json5.parse } }
     ]
+  },
+  devtool: 'inline-source-map',
+  devServer: { contentBase: './dist' },
+  externals: {
+    lodash: {
+      commonjs: 'lodash',
+      commonjs2: 'lodash',
+      amd: 'lodash',
+      root: '_'
+    }
   }
 })

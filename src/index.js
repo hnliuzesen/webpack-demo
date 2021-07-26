@@ -1,15 +1,22 @@
 import _ from 'lodash'
-import {BottomButton} from 'ts-demo-banxia'
+import numRef from './ref.json'
 
-function component() {
-  console.log(BottomButton)
-  const element = document.createElement('div')
-  const btn = document.createElement('BottomButton')
-  // const btn = document.createElement('button')
-  element.innerHTML = 'Hello'
-  btn.innerHTML = 'button'
-  element.appendChild(btn)
-  return element
+export function numToWord (num) {
+  return _.reduce(
+    numRef,
+    (accum, ref) => {
+      return ref.num === num ? ref.word : accum
+    },
+    ''
+  )
 }
 
-document.body.appendChild(component())
+export function wordToNum (word) {
+  return _.reduce(
+    numRef,
+    (accum, ref) => {
+      return ref.word === word && word.toLowerCase() ? ref.num : accum
+    },
+    -1
+  )
+}
